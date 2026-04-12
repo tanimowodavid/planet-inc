@@ -15,10 +15,11 @@ The ALX ProDev Backend program is a project-driven training focused on practical
 ## Project Overview
 
 - Apps: `address`, `ai_assistant`, `carts`, `orders`, `products`, `users`, and core project settings in `planet_core`.
-> each app has its own readme for api list and proper documentation.
+  > each app has its own readme for api list and proper documentation.
 - Features: product embeddings (pgvector), RAG-enabled AI assistant, Paystack payment integration, Celery background workers, and soft-delete for catalog items.
 
 ## Technologies Used
+
 - Django: For building a scalable backend framework.
 - PostgreSQL: As the relational database for optimized performance.
 - JWT: For secure user authentication.
@@ -101,27 +102,6 @@ pip install -r requirements.txt
 ```bash
 pytest
 ```
-
-### Test Coverage Summary
-
-The test suite covers:
-
-- **Users App** (~570 lines): Registration, login, logout, profile management, password changes
-- **Products App** (~340 lines): Product/category creation, variant management, admin endpoints, public listing
-- **Carts App** (~330 lines): Cart creation, item management, quantity updates, cart persistence
-- **Orders App** (~300 lines): Order creation, checkout flow, payment verification, order history
-- **Address App** (~350 lines): Address management, default address handling, per-user isolation
-- **AI Assistant App** (~300 lines): Conversation management, message creation, RAG integration
-
-**Total: 1,000+ test lines covering 100+ test cases across all major features**
-
-### Key Testing Patterns
-
-1. **Fixtures**: Tests use `setUp()` methods to create reusable test data
-2. **Mocking**: External services (OpenAI, Paystack) are mocked to avoid API calls
-3. **Isolation**: Each test is independent and doesn't affect others
-4. **Assertions**: Clear assertions on expected behavior and edge cases
-5. **Permissions**: Tests verify authentication and authorization rules
 
 ### Docker Testing
 
