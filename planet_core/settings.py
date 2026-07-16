@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 import os
-import sys
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
@@ -94,23 +93,17 @@ WSGI_APPLICATION = 'planet_core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": os.getenv("POSTGRES_DB"),
         "USER": os.getenv("POSTGRES_USER"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_HOST"),
+        "HOST": os.getenv("POSTGRES_HOST"), 
         "PORT": 5432,
     }
 }
-
-# Test database configuration - use SQLite for tests
-if 'test' in sys.argv or 'pytest' in sys.argv[0]:
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
-    }
 
 
 # Password validation

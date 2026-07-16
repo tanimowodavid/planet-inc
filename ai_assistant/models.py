@@ -7,7 +7,7 @@ class AIConversation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Chat with {self.user.email} on {self.created_at.strftime('%Y-%m-%d')}"
+        return f"Chat with {self.user.username} on {self.created_at.strftime('%Y-%m-%d')}"
 
 class AIMessage(models.Model):
     ROLE_CHOICES = (
