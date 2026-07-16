@@ -1,8 +1,8 @@
 # Planet Inc
 
-A Django-based e-commerce backend built as my last project during the alx prodev backend engineering program. The project demonstrates building production-ready APIs, worker-based background processing, semantic product search, and secure payment integration.
+A Django-based e-commerce backend built as part of the ALX ProDev Backend Engineering program. The project demonstrates building production-ready APIs, worker-based background processing, semantic product search, and secure payment integration.
 
-## ALX ProDev Backend Engineering Brief Overview
+## ProDev Backend Engineering Brief Overview
 
 The ALX ProDev Backend program is a project-driven training focused on practical backend engineering skills and best practices.
 
