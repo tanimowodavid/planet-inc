@@ -1,0 +1,14 @@
+{
+  "include": ["."],
+  "exclude": [
+    "**/migrations/**",
+    "**/__pycache__/**",
+    "**/.venv/**",
+    "**/node_modules/**"
+  ],
+  "typeCheckingMode": "basic",
+  "reportIncompatibleVariableOverride": "none",
+  "reportIncompatibleMethodOverride": "none",
+  "reportUnknownMemberType": "none",
+  "reportUnknownVariableType": "none"
+}
