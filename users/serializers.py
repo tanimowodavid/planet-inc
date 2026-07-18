@@ -1,26 +1,26 @@
+from typing import Any
+
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import get_user_model
 
-
-User = get_user_model()
+from users.models import User
 
 
 # Create a new user serializer
-class UserCreateSerializer(serializers.ModelSerializer):
+class UserCreateSerializer(serializers.ModelSerializer[User]):
     password = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
 
-    class Meta:
-        model = User
+    class Meta(serializers.ModelSerializer.Meta):
+        model = User  # pyright: ignore[reportAssignmentType, reportIncompatibleVariableOverride]
         fields = ['first_name', 'last_name', 'email', 'password', 'password2']
 
-    def validate(self, data):
-        if data['password'] != data['password2']:
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError("Passwords must match")
-        return data
+        return attrs
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict[str, Any]) -> User:
         validated_data.pop('password2')
         password = validated_data.pop("password")
 
@@ -28,16 +28,16 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 # Serializer for retrieving user details
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
+class UserSerializer(serializers.ModelSerializer[User]):
+    class Meta(serializers.ModelSerializer.Meta):
+        model = User  # pyright: ignore[reportAssignmentType, reportIncompatibleVariableOverride]
         fields = ['id', 'email', 'first_name', 'last_name']
 
 
 # Serializer for updating user details
-class UserUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
+class UserUpdateSerializer(serializers.ModelSerializer[User]):
+    class Meta(serializers.ModelSerializer.Meta):
+        model = User  # pyright: ignore[reportAssignmentType, reportIncompatibleVariableOverride]
         fields = ['first_name', 'last_name', 'email']
 
 
@@ -46,13 +46,13 @@ class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True)
     new_password = serializers.CharField(write_only=True)
 
-    def validate(self, data):
+    def validate(self, attrs):
         user = self.context['request'].user
 
-        if not user.check_password(data['old_password']):
+        if not user.check_password(attrs['old_password']):
             raise serializers.ValidationError("Old password is incorrect")
 
-        return data
+        return attrs
 
 
 # Serializer for logging out and blacklisting the refresh token
