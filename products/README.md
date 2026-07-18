@@ -18,8 +18,10 @@ To preserve historical records and maintain referential integrity:
 ### 2. Product Embeddings & RAG
 
 - **Vector Storage:** Each product stores a 1536-dimensional embedding using PostgreSQL's pgvector extension.
-- **Semantic Search:** Embeddings enable the AI Assistant to find contextually relevant products based on user queries (not just keyword matching).
+- **Semantic Search:** Embeddings enable the AI Assistant and storefront search to find contextually relevant products based on user queries, not just literal keyword matches.
 - **Auto-Generation:** Embeddings are created automatically when a product is saved, combining name and description.
+- **Search Endpoint Support:** The public variants listing endpoint now accepts a `search` query parameter and ranks results by semantic similarity using pgvector cosine distance.
+- **Graceful Fallback:** If embedding generation fails, the API falls back to a simple case-insensitive product-name match so the experience remains usable.
 
 ### 3. Product Variants (SKUs)
 
@@ -40,13 +42,13 @@ To preserve historical records and maintain referential integrity:
 
 ## 🛠 API Reference
 
-| Endpoint                | Method      | Permission | Description                           |
-| ----------------------- | ----------- | ---------- | ------------------------------------- |
-| `/api/categories/`      | `POST`      | Admin      | Create a new category.                |
-| `/api/products/`        | `POST`      | Admin      | Create a new product with embeddings. |
-| `/api/products/<slug>/` | `PUT/PATCH` | Admin      | Update product details.               |
-| `/api/variants/`        | `GET`       | Public     | List all active product variants.     |
-| `/api/variants/<sku>/`  | `GET`       | Public     | Retrieve a specific variant by SKU.   |
+| Endpoint                | Method      | Permission | Description                                                                              |
+| ----------------------- | ----------- | ---------- | ---------------------------------------------------------------------------------------- |
+| `/api/categories/`      | `POST`      | Admin      | Create a new category.                                                                   |
+| `/api/products/`        | `POST`      | Admin      | Create a new product with embeddings.                                                    |
+| `/api/products/<slug>/` | `PUT/PATCH` | Admin      | Update product details.                                                                  |
+| `/api/products/`        | `GET`       | Public     | List active product variants; supports optional `search` for semantic product discovery. |
+| `/api/products/<sku>/`  | `GET`       | Public     | Retrieve a specific variant by SKU.                                                      |
 
 ### Product Creation Example
 
@@ -57,6 +59,14 @@ To preserve historical records and maintain referential integrity:
   "category": [1, 2]
 }
 ```
+
+### Semantic Search Example
+
+```http
+GET /api/products/?search=lightweight bike for commuting
+```
+
+This returns the most semantically relevant variants, ordered by similarity score. If the embedding service is unavailable, the endpoint gracefully falls back to a basic text search over product names.
 
 ### Variant Response Example
 

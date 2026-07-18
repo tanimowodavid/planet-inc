@@ -11,7 +11,7 @@ class UserCreateSerializer(serializers.ModelSerializer[User]):
     password = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
 
-    class Meta(serializers.ModelSerializer.Meta):
+    class Meta:
         model = User  # pyright: ignore[reportAssignmentType, reportIncompatibleVariableOverride]
         fields = ['first_name', 'last_name', 'email', 'password', 'password2']
 
@@ -29,14 +29,14 @@ class UserCreateSerializer(serializers.ModelSerializer[User]):
 
 # Serializer for retrieving user details
 class UserSerializer(serializers.ModelSerializer[User]):
-    class Meta(serializers.ModelSerializer.Meta):
+    class Meta:
         model = User  # pyright: ignore[reportAssignmentType, reportIncompatibleVariableOverride]
         fields = ['id', 'email', 'first_name', 'last_name']
 
 
 # Serializer for updating user details
 class UserUpdateSerializer(serializers.ModelSerializer[User]):
-    class Meta(serializers.ModelSerializer.Meta):
+    class Meta:
         model = User  # pyright: ignore[reportAssignmentType, reportIncompatibleVariableOverride]
         fields = ['first_name', 'last_name', 'email']
 
