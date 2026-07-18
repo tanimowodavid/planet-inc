@@ -96,7 +96,10 @@ class VariantListView(APIView):
             except Exception as e:
                 # Fallback gracefully to basic text match if the embedding API down/fails
                 print(f"Embedding error: {e}")
-                variants = variants.filter(product__name__icontains=search_query)
+                variants = variants.filter(product__name__icontains=search_query).order_by('id')
+        else:
+            # If no search query, order by creation date (newest first)
+            variants = variants.order_by('-product__created_at')
 
         # Apply standard DRF pagination
         paginator = self.pagination_class()

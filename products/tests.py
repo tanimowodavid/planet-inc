@@ -34,7 +34,7 @@ class ProductSearchIntegrationTests(APITestCase):
         self.assertEqual(len(response.data["results"]), 1)
         self.assertEqual(response.data["results"][0]["sku"], self.variant.sku)
 
-    @patch("product.views.generate_product_embedding")  # Adjust import string to match your project path
+    @patch("products.views.generate_product_embedding")  # Adjust import string to match your project path
     def test_semantic_search_returns_relevant_results(self, mock_embedding):
         """Verify that passing a ?search parameter executes the pgvector logic successfully."""
         # Mock the embedding generator to return a matching 1536-dimension vector array
@@ -46,7 +46,7 @@ class ProductSearchIntegrationTests(APITestCase):
         mock_embedding.assert_called_once_with("marathon sneakers")
         self.assertEqual(len(response.data["results"]), 1)
 
-    @patch("product.views.generate_product_embedding")
+    @patch("products.views.generate_product_embedding")
     def test_semantic_search_graceful_fallback_on_api_failure(self, mock_embedding):
         """Verify that if the external embedding API fails, the view falls back to a basic text query."""
         # Force the embedding utility to raise an exception (e.g., timeout or rate limit)
